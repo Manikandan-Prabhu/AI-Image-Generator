@@ -1,4 +1,4 @@
-const GenerateImageService = require("../service/generateImage.service");
+const GenerateImageService = require("../service/generate-image.service");
 
 const generateImage = async (req, res) => {
   const { prompt } = req.body;
@@ -33,13 +33,14 @@ const generateImage = async (req, res) => {
     const requestId = submitData.id;
     console.log(`Generation ID: ${requestId}`);
 
-    const poolData = await GenerateImageService.getImage(generatedId);
+    const poolData = await GenerateImageService.getImage(requestId);
     if (!poolData.imageBase64) {
       return res.status(202).json({
         status: "pending",
         message: "Image is still being generated. Try again shortly.",
-        generatedId,
-        ...(poolData.status || {}),
+        generatedId: requestId,
+        queuePosition: poolData.queuePosition,
+        waitTime: poolData.waitTime,
       });
     }
     return res.status(200).json({
@@ -68,7 +69,8 @@ const checkStatus = async (req, res) => {
         status: "pending",
         message: "Image is still being generated. Try again shortly.",
         generatedId,
-        ...(poolData.status || {}),
+        queuePosition: poolData.queuePosition,
+        waitTime: poolData.waitTime,
       });
     }
     return res.status(200).json({

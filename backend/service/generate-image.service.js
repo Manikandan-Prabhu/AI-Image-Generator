@@ -16,6 +16,7 @@ module.exports.generateID = generateID;
 
 const getImage = async (generatedId) => {
   let imageBase64 = null;
+  let pollData = null;
   for (let i = 0; i < 20; i++) {
     await new Promise((r) => setTimeout(r, 3000)); // wait 3 seconds
     const pollRes = await fetch(
@@ -26,8 +27,8 @@ const getImage = async (generatedId) => {
         },
       }
     );
-    const pollData = await pollRes.json();
-    console.log(pollData);
+    pollData = await pollRes.json();
+    // console.log(pollData);
     if (pollData.done && pollData.finished == 1) {
       imageBase64 = pollData.generations[0].img;
       break;
@@ -37,10 +38,8 @@ const getImage = async (generatedId) => {
   }
 
   return {
-    status: {
-      queue_position: pollData.queue_position,
-      wait_time: pollData.wait_time,
-    },
+    queuePosition: pollData.queue_position,
+    waitTime: pollData.wait_time,
     imageBase64,
   };
 };

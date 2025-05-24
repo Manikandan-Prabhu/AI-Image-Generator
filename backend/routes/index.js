@@ -1,6 +1,6 @@
 var express = require("express");
 var router = express.Router();
-var GenerateImageController = require("../controller/generateImage.controller");
+var GenerateImageController = require("../controller/generate-image.controller");
 
 router.post("/generate-image", GenerateImageController.generateImage);
 router.get("/image-status/:id", GenerateImageController.checkStatus);
