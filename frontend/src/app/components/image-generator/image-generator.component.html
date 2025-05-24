@@ -1,0 +1,60 @@
+<section class="generate-container">
+  <div class="generate-prompt">
+    <input
+      class="generate-prompt__input"
+      type="text"
+      name="prompt"
+      id="prompt"
+      [(ngModel)]="prompt"
+    />
+    <button
+      type="button"
+      class="generate-prompt__button"
+      (click)="onGenerate()"
+    >
+      Generate
+    </button>
+  </div>
+  <div class="generate-image">
+    <div *ngIf="loading; else errorTemplate" class="generate-image__loader">
+      <div class="loader"></div>
+      <span>Generating Image...</span>
+    </div>
+    <ng-template #errorTemplate>
+      <div *ngIf="error; else pendingTemplate" class="generate-image__error">
+        <span>{{ error }}</span>
+      </div>
+    </ng-template>
+    <ng-template #pendingTemplate>
+      <div
+        *ngIf="generatedImage?.status === 'pending'; else imageTemplate"
+        class="generate-image__pending"
+      >
+        <div class="image__pending_message">
+          Image is still being generated...
+          <div
+            *ngIf="generatedImage?.queuePosition"
+            class="image__pending_queue"
+          >
+            <strong>Queue Position: {{ generatedImage.queuePosition }}</strong>
+          </div>
+        </div>
+        <button
+          type="button"
+          (click)="checkImageStatus()"
+          class="generate-image__pending_button"
+        >
+          Check Status
+        </button>
+      </div>
+    </ng-template>
+    <ng-template #imageTemplate>
+      <img
+        *ngIf="generatedImage?.image"
+        [src]="generatedImage?.image"
+        alt="Generated Image"
+        class="generate-image__size"
+      />
+    </ng-template>
+  </div>
+</section>
