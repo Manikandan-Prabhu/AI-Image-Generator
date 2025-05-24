@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   GenerateImagePending,
   GenerateImageSuccess,
@@ -10,14 +10,31 @@ import { GenerateImageService } from 'src/app/services/generate-image.service';
   templateUrl: './image-generator.component.html',
   styleUrls: ['./image-generator.component.scss'],
 })
-export class ImageGeneratorComponent {
+export class ImageGeneratorComponent implements OnInit {
   prompt: string = '';
   loading: boolean = false;
   error: string = '';
   generatedId!: string;
   generatedImage!: GenerateImageSuccess | GenerateImagePending;
+  token!: string;
 
   constructor(private generateService: GenerateImageService) {}
+
+  ngOnInit(): void {
+    const params = new URLSearchParams(window.location.search);
+    const token = params.get('token');
+
+    if (token) {
+      localStorage.setItem('token', token);
+      window.history.replaceState({}, document.title, '/'); // clean URL
+    }
+
+    this.token = localStorage.getItem('token') || '';
+  }
+
+  loginWithGoogle() {
+    window.location.href = 'http://localhost:3000/auth/google';
+  }
 
   onGenerate() {
     if (!prompt) return;

@@ -94,6 +94,22 @@
   }
 }
 
+.section-title {
+  font-size: 34px;
+  margin-block: 10px 20px;
+}
+
+.login_button {
+  height: 40px;
+  padding: 10px 20px;
+  font-size: 18px;
+  background: greenyellow;
+  border-radius: 20px;
+  outline: none;
+  border: none;
+  cursor: pointer;
+}
+
 @keyframes rotation {
   0% {
     transform: rotate(0deg);
