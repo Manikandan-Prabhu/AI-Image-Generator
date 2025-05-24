@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -7,9 +8,14 @@ import { HttpClient } from '@angular/common/http';
 export class GenerateImageService {
   constructor(private http: HttpClient) {}
 
+  /**
+   * Sends image generation request to API with user prompt
+   * @param prompt User's text input for image generation
+   * @returns an observable which have the generated image/generated id
+   */
   generateImage(prompt: string) {
     return this.http.post<any>(
-      'http://localhost:3000/generate-image',
+      `${environment.apiUrl}/generate-image`,
       {
         prompt,
       },
@@ -21,9 +27,14 @@ export class GenerateImageService {
     );
   }
 
+  /**
+   * Checks the current status of image generation by ID
+   * @param generatedId Unique ID for tracking image generation request
+   * @returns an observable which have the generated image
+   */
   checkImageStatus(generatedId: string) {
     return this.http.get<any>(
-      `http://localhost:3000/image-status/${generatedId}`,
+      `${environment.apiUrl}/image-status/${generatedId}`,
       {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,

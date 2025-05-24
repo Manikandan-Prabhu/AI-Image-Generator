@@ -1,5 +1,10 @@
 const GenerateImageService = require("../service/generate-image.service");
-
+/**
+ * Handles AI image generation request from user prompt
+ * @param {*} req
+ * @param {*} res
+ * @returns promise with pending status with ID or completed image
+ */
 const generateImage = async (req, res) => {
   const { prompt } = req.body;
   if (!prompt) {
@@ -54,6 +59,12 @@ const generateImage = async (req, res) => {
 };
 module.exports.generateImage = generateImage;
 
+/**
+ * Checks the status of an ongoing image generation process
+ * @param {*} req
+ * @param {*} res
+ * @returns promise that resolves the completed image
+ */
 const checkStatus = async (req, res) => {
   const generatedId = req.params && req.params.id;
   if (!generatedId) {

@@ -1,3 +1,8 @@
+/**
+ * Submits image generation request to Stable Horde API and gets tracking ID
+ * @param {*} payload - image generation configuration
+ * @returns promise that resolves with response containing generation ID
+ */
 const generateID = async (payload) => {
   const submitResponse = await fetch(
     "https://stablehorde.net/api/v2/generate/async",
@@ -14,6 +19,11 @@ const generateID = async (payload) => {
 };
 module.exports.generateID = generateID;
 
+/**
+ * Polls Stable Horde API for image completion status and retrieves generated image
+ * @param {*} generatedId - unique ID from the initial generation request
+ * @returns promise that resolves with queue info and base64 image data
+ */
 const getImage = async (generatedId) => {
   let imageBase64 = null;
   let pollData = null;
