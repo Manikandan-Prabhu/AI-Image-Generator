@@ -10,7 +10,7 @@ const generateID = async (payload) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        apikey: CONFIG.api_key,
+        apikey: process.env.API_KEY,
       },
       body: JSON.stringify(payload),
     }
@@ -33,7 +33,7 @@ const getImage = async (generatedId) => {
       `https://stablehorde.net/api/v2/generate/status/${generatedId}`,
       {
         headers: {
-          apikey: CONFIG.api_key,
+          apikey: process.env.API_KEY,
         },
       }
     );
