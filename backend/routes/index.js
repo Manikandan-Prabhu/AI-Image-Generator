@@ -17,7 +17,7 @@ router.get(
     const token = jwt.sign({ user: req.user }, process.env.JWT_SECRET, {
       expiresIn: "1h",
     });
-    res.redirect(`http://localhost:4200?token=${token}`);
+    res.redirect(`${process.env.CLIENT_URL}?token=${token}`);
   }
 );
 
