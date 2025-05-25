@@ -30,9 +30,11 @@ const generateImage = async (req, res) => {
     };
     const submitData = await GenerateImageService.generateID(requestPayload);
     if (!submitData.id) {
-      return res
-        .status(500)
-        .json({ status: "error", message: "Failed to get generation ID" });
+      return res.status(500).json({
+        status: "error",
+        message: "Failed to get generation ID",
+        error: submitData,
+      });
     }
 
     const requestId = submitData.id;
@@ -54,7 +56,9 @@ const generateImage = async (req, res) => {
     });
   } catch (err) {
     console.error("Backend error:", err);
-    return res.status(500).json({ status: "error", message: "Server error" });
+    return res
+      .status(500)
+      .json({ status: "error", message: "Server error", error: err });
   }
 };
 module.exports.generateImage = generateImage;
@@ -90,7 +94,9 @@ const checkStatus = async (req, res) => {
     });
   } catch (err) {
     console.error("Backend error:", err);
-    return res.status(500).json({ status: "error", message: "Server error" });
+    return res
+      .status(500)
+      .json({ status: "error", message: "Server error", error: err });
   }
 };
 module.exports.checkStatus = checkStatus;
